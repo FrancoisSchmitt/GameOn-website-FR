@@ -87,6 +87,21 @@ function emailValid() {
 }
 
 
+// Crée une fonction dateValid pour validé l'année de naissance de l'utilisateur
+function dateValid() {
+  // Condition qui vérifie que la date n'est pas vide et qu'elle ne dépasse pas la date future
+}
+
+// Crée une fonction NumbValid pour validé le nombre de concour que l'utilisateur à participé
+function NumbValid(){
+  // Condition qui vérifie que le nombre n'est pas null
+}
+
+// Crée une fonction RadioValid pour vérifié qu'une entré de ville est bien valide
+function RadioValid(){
+  // Condition que l'entré n'est pas null 
+}
+
 // Crée une fonction Validate
 function validate() {
   // Condition qui vérifie que toute les autres xValid sont true
@@ -102,20 +117,5 @@ function validate() {
   
 
 
-
-
-// Crée une fonction qui va appeler toutes les fonction de vérification 
-// Faire une condition si toutes les fonctions return true, alors on return true
-
-
-
-
-  // Le formulaire doit être valide quand l'utilisateur clique sur "Submit"
-  // Les données doivent être saisies correctement :
-  // (1) Le champ Prénom a un minimum de 2 caractères / n'est pas vide.
-  // (2) Le champ du nom de famille a un minimum de 2 caractères / n'est pas vide.
-  // (3) L'adresse électronique est valide.
-  // (4) Pour le nombre de concours, une valeur numérique est saisie.
-  // (5) Un bouton radio est sélectionné.
   // (6) La case des conditions générales est cochée, l'autre case est facultative / peut être laissée décochée.
   // Conserver les données du formulaire (ne pas effacer le formulaire) lorsqu'il ne passe pas la validation.

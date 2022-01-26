@@ -89,12 +89,34 @@ function emailValid() {
 
 // Crée une fonction dateValid pour validé l'année de naissance de l'utilisateur
 function dateValid() {
-  // Condition qui vérifie que la date n'est pas vide et qu'elle ne dépasse pas la date future
+  // variable
+  const quantity = document.forms["reserve"]["birthdate"];
+  // Condition qui vérifie que la date n'est pas vide
+  if (quantity.value == "") {
+    formData[3].setAttribute("data-success-visible", false);
+    formData[3].setAttribute("data-error-visible", true);
+    formData[3].setAttribute("data-error", `veuillez mettre votre date de naissance.`);
+    return false 
+  }
+  else {
+    return true
+  }
 }
 
 // Crée une fonction NumbValid pour validé le nombre de concour que l'utilisateur à participé
-function NumbValid(){
-  // Condition qui vérifie que le nombre n'est pas null
+function numbValid(){
+  // variable
+  const quantity = document.forms["reserve"]["quantity"];
+  // Condition qui vérifie que le nombre n'est pas vide
+  if (quantity.value == "") {
+    formData[4].setAttribute("data-success-visible", false);
+    formData[4].setAttribute("data-error-visible", true);
+    formData[4].setAttribute("data-error", `Veullez choisir un nombre entre 0 et 99.`);
+    return false 
+  }
+  else {
+    return true
+  }
 }
 
 // Crée une fonction RadioValid pour vérifié qu'une entré de ville est bien valide
@@ -105,7 +127,7 @@ function RadioValid(){
 // Crée une fonction Validate
 function validate() {
   // Condition qui vérifie que toute les autres xValid sont true
-  if (firstValid() && nameValid() && emailValid() === true){
+  if (firstValid() && nameValid() && emailValid() &&dateValid() && numbValid() === true){
   return true;
 }
 // Sinon elle renvoie une erreur

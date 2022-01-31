@@ -12,7 +12,9 @@ const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const modalClose = document.querySelector(".close");
-
+const confirmModal = document.querySelector(".confirm-modal")
+const confirmClose = document.querySelector(".confirm-close");
+const confirmCloseBtn = document.querySelector(".confirm-modal-btn");
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -27,38 +29,39 @@ modalClose.onclick = function () {
   modalbg.style.display = "none";
 }
 
+// Fermer le modal de confirmation.
+confirmClose.onclick = function () {
+  confirmModal.style.display = "none";
+}
 
-// Crée une fonction firstValid pour validé le Prénom de l'utilisateur
+confirmCloseBtn.onclick = function () {
+  confirmModal.style.display = "none";
+}
+
+// Function qui vérifie que le prénom n'est pas vide ou < 2 
 function firstValid() {
-  // Variable 
   const firstname = document.forms["reserve"]["first"];
-  //  Condition si le prénom est null ou inférieure a 2 cara cela renvoie une erreur 
   if (firstname.value == null || firstname.value < 2) {
     formData[0].setAttribute("data-success-visible", false);
     formData[0].setAttribute("data-error-visible", true);
-    formData[0].setAttribute("data-error", `Veuillez saisir votre prénom avec plus de 2 caractère.`);
+    formData[0].setAttribute("data-error", `Veuillez entrer 2 caractères ou plus pour le champ du prénom.`);
     return false;
   }
-  // Sinon c'est validé & on return true
   else {
-    formData[0].setAttribute("data-success-visible", true);
-    formData[0].setAttribute("data-error-visible", false);
     return true;
   };
 }
 
-// Crée une fonction nameValid pour validé le Prénom de l'utilisateur
+// Function qui vérifie que le nom de famille n'est pas vide ou < 2  
 function nameValid() {
-  // Variable
+
   const name = document.forms["reserve"]["name"];
-  //  Condition si le nom de famille est null ou inférieure a 2 cara cela renvoie une erreur 
   if (name.value == null || name.value < 2) {
     formData[1].setAttribute("data-success-visible", false);
     formData[1].setAttribute("data-error-visible", true);
-    formData[1].setAttribute("data-error", `Veuillez saisir votre prénom avec plus de 2 caractère.`);
+    formData[1].setAttribute("data-error", `Veuillez entrer 2 caractères ou plus pour le champ du nom.`);
     return false;
   }
-  // Sinon c'est validé & on return true
   else {
     formData[1].setAttribute("data-success-visible", true);
     formData[1].setAttribute("data-error-visible", false);
@@ -66,78 +69,84 @@ function nameValid() {
   };
 }
 
-// Crée une fonction emailValid pour validé le Prénom de l'utilisateur
+// Function qui vérifie que l'email est valide avec un regex.
 function emailValid() {
-  
-  // Variable & regex
   const email = document.forms["reserve"]["email"];
-  const validRegexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  
-  //  Condition si l'email ne match pas avec le regex alors c'est false
+  const validRegexEmail = /^\S+@\S+.\S+$/;
   if (!email.value.match(validRegexEmail)) {
     formData[2].setAttribute("data-success-visible", false);
     formData[2].setAttribute("data-error-visible", true);
-    formData[2].setAttribute("data-error", `Votre email n'est pas valide.`);
+    formData[2].setAttribute("data-error", `Votre email n'est pas valide. exemple : email@to.me`);
     return false;
-
-  // Sinon c'est validé & on return true
   } else {
     return true;
   }
 }
 
-
-// Crée une fonction dateValid pour validé l'année de naissance de l'utilisateur
+// Function qui vérifie si une date est entré.
 function dateValid() {
-  // variable
-  const quantity = document.forms["reserve"]["birthdate"];
-  // Condition qui vérifie que la date n'est pas vide
-  if (quantity.value == "") {
+  const birthdate = document.forms["reserve"]["birthdate"];
+  const dateCurrent = new Date();
+
+  if (birthdate.value == "") {
     formData[3].setAttribute("data-success-visible", false);
     formData[3].setAttribute("data-error-visible", true);
-    formData[3].setAttribute("data-error", `veuillez mettre votre date de naissance.`);
-    return false 
+    formData[3].setAttribute("data-error", `Vous devez entrer votre date de naissance.`);
+    return false
   }
   else {
     return true
   }
 }
 
-// Crée une fonction NumbValid pour validé le nombre de concour que l'utilisateur à participé
-function numbValid(){
-  // variable
+// Function qui vérifie / valide uniquement si la réponse est un chiffre.
+function numbValid() {
   const quantity = document.forms["reserve"]["quantity"];
-  // Condition qui vérifie que le nombre n'est pas vide
-  if (quantity.value == "") {
+  const regexNumb = /^[0-9]+$/;
+  if (!quantity.value.match(regexNumb)) {
     formData[4].setAttribute("data-success-visible", false);
     formData[4].setAttribute("data-error-visible", true);
-    formData[4].setAttribute("data-error", `Veullez choisir un nombre entre 0 et 99.`);
-    return false 
+    formData[4].setAttribute("data-error", `Veuillez entré un nombre entre 0 et 99.`);
+    return false;
   }
   else {
-    return true
+    return true;
   }
 }
-
-// Crée une fonction RadioValid pour vérifié qu'une entré de ville est bien valide
-function RadioValid(){
-  // Condition que l'entré n'est pas null 
+// Function avec boucle for qui vérifie si une localisation à bien été choisi.
+function locationValid() {
+  const locationInput = document.querySelectorAll(".checkbox-input[type=radio]");
+  for (let radio of locationInput) {
+    if (radio.checked === true)
+      return true;
+  }
+  formData[5].setAttribute("data-success-visible", false);
+  formData[5].setAttribute("data-error-visible", true);
+  formData[5].setAttribute("data-error", `Vous devez choisir une option.`);
+  return false;
 }
 
-// Crée une fonction Validate
-function validate() {
-  // Condition qui vérifie que toute les autres xValid sont true
-  if (firstValid() && nameValid() && emailValid() &&dateValid() && numbValid() === true){
-  return true;
+// Function qui vérifie si la checkbox est bien coché.
+function checkboxValid() {
+  const checkboxInput = document.getElementById("checkbox1");
+  if (!checkboxInput.checked) {
+    formData[6].setAttribute("data-success-visible", false);
+    formData[6].setAttribute("data-error-visible", true);
+    formData[6].setAttribute("data-error", `Vous devez vérifier que vous acceptez les termes et conditions.`);
+    return false
+  }
+  else {
+    return true;
+  }
 }
-// Sinon elle renvoie une erreur
+// Crée une fonction Validate qui vérifie si xValid === true Sinon le formulaire return false.
+function validate(event) {
+  event.preventDefault();
+  if (firstValid() && nameValid() && emailValid() && dateValid() && numbValid() && locationValid() && checkboxValid() === true) {
+    modalbg.style.display = "none"
+    confirmModal.style.display = "block";
+  }
   else {
     return false;
   }
-
 };
-  
-
-
-  // (6) La case des conditions générales est cochée, l'autre case est facultative / peut être laissée décochée.
-  // Conserver les données du formulaire (ne pas effacer le formulaire) lorsqu'il ne passe pas la validation.

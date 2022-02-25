@@ -548,8 +548,20 @@ footer {
 
   .content {
     margin-top: 20%;
-    height: inherit;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+
   }
+
+  .confirm-modal-message {
+    text-align: center;
+    margin-bottom: -20%;
+  }
+
+  .confirm-modal-btn {
+    margin-bottom: 20%;
+  }
+
 
   .hero-section {
     display: block;
@@ -572,7 +584,7 @@ footer {
   }
 
   .hero-headline {
-    font-size: 3rem;
+    font-size: 2.2rem;
     white-space: normal;
   }
 
@@ -598,7 +610,7 @@ footer {
   }
 }
 
-
+/* 
 @media screen and (max-width: 450px) {
   .hero-headline {
     font-size: 2rem;
@@ -609,7 +621,7 @@ footer {
     margin: 0;
     height: inherit;
   }
-}
+} */
 
 @keyframes modalopen {
   from {

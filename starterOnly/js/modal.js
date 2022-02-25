@@ -7,12 +7,7 @@ const quantity = document.forms["reserve"]["quantity"];
 const locationInput = document.querySelectorAll(".checkbox-input[type=radio]");
 const checkboxInput = document.getElementById("checkbox1");
 const formData = document.querySelectorAll(".formData");
-const location1 = document.getElementById("location1");
-const location2 = document.getElementById("location2");
-const location3 = document.getElementById("location3");
-const location4 = document.getElementById("location4");
-const location5 = document.getElementById("location5");
-const location6 = document.getElementById("location6");
+
 
 
 // DOM event form
@@ -47,6 +42,7 @@ eventForm.addEventListener("submit", (e) => {
 
 function validate() {
 
+  let errors = 0;
   // lastname check
 
   if (firstname.value.length >= 2 && firstname.value.match(regexName)) {
@@ -58,6 +54,7 @@ function validate() {
     formData[0].setAttribute("data-error-visible", true);
     formData[0].setAttribute("data-error", `Veuillez entrer 2 caractères ou plus pour le champ du prénom.`);
     console.log(`Not Validate`);
+    errors++;
   }
 
   // name check
@@ -70,6 +67,7 @@ function validate() {
     formData[1].setAttribute("data-error-visible", true);
     formData[1].setAttribute("data-error", `Veuillez entrer 2 caractères ou plus pour le champ du nom.`);
     console.log(`Not Validate`);
+    errors++;
   }
 
   // email check
@@ -82,7 +80,7 @@ function validate() {
     formData[2].setAttribute("data-error-visible", true);
     formData[2].setAttribute("data-error", `Votre email n'est pas valide. exemple : email@to.me`);
     console.log(`Not Validate`);
-
+    errors++;
   }
 
   // birthdate check
@@ -95,6 +93,7 @@ function validate() {
     formData[3].setAttribute("data-error-visible", true);
     formData[3].setAttribute("data-error", `Vous devez entrer votre date de naissance.`);
     console.log(`Not Validate`);
+    errors++;
   }
 
   // quantity check
@@ -107,21 +106,10 @@ function validate() {
     formData[4].setAttribute("data-error", `Veuillez entré un nombre entre 0 et 99.`);
     formData[4].setAttribute("data-error-visible", true);
     console.log(`Not Validate`);
+    errors++;
   }
 
   // Location check
-
-  if (location1.checked || location2.checked || location3.checked ||
-    location4.checked || location5.checked || location6.checked) {
-    formData[5].setAttribute("data-error-visible", false);
-    console.log(`Validate`);
-  }
-  else {
-    formData[5].setAttribute("data-error", `Veuillez séléctioner une ville.`);
-    formData[5].setAttribute("data-error-visible", true);
-    console.log(`Not Validate`);
-
-  }
 
   // checkboxinput check
 
@@ -133,14 +121,32 @@ function validate() {
     formData[6].setAttribute("data-error-visible", true);
     formData[6].setAttribute("data-error", `Vous devez vérifier que vous acceptez les termes et conditions.`);
     console.log(`Not Validate`);
-
+    errors++;
   }
 
-  if (lastname.value && firstname.value && email.value && birthdate.value && quantity.value &&
-    ((location1.checked) || (location2.checked) || (location3.checked) || (location4.checked) ||
-      (location5.checked) || (location6.checked)) && checkbox1.checked === true) {
+  let radioErrors = 0;
+
+  for (let radio of locationInput) {
+    if (radio.checked === true) {
+      formData[5].setAttribute("data-success-visible", false);
+      formData[5].setAttribute("data-error-visible", false);
+      console.log(`Validate radio`);
+      radioErrors = 0;
+      break;
+    }
+    else {
+      formData[5].setAttribute("data-error", `Veuillez séléctioner une ville.`);
+      formData[5].setAttribute("data-error-visible", true);
+      console.log(`Not Validate radio`);
+      radioErrors++;
+    }
+  }
+
+  if (errors == 0 && radioErrors == 0) {
     modalbg.style.display = "none";
     confirmModal.style.display = "block";
+    document.querySelector("form").reset();
+    checkboxInput.checked = null;
   }
   else {
     return false;

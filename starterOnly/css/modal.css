@@ -197,6 +197,7 @@ main {
 }
 
 .confirm-modal-message {
+  text-align: center;
   min-height: 7px;
   padding: 78% 5%;
 }
